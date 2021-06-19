@@ -49,8 +49,8 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-scalars:2.5.0"
     implementation "com.squareup.okhttp3:logging-interceptor:3.11.0"
     //kotlin coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
     //hilt
     implementation 'com.google.dagger:hilt-android:2.36'
     kapt 'com.google.dagger:hilt-android-compiler:2.36'
