@@ -13,10 +13,9 @@ interface ApiService {
     }
 
     @GET(GET_TRANSACTIONS)
-    suspend fun postSignin(): Response<WrappedListResponse<Product>>
+    suspend fun getProducts(): Response<WrappedListResponse<Product>>
 
     @GET(GET_CONVERSIONS)
-    suspend fun getBanks(): Response<WrappedListResponse<Conversion>>
-
+    suspend fun getConversions(): Response<WrappedListResponse<Conversion>>
 
 }
