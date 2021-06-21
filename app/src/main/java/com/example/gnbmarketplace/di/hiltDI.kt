@@ -3,6 +3,7 @@ package com.example.gnbmarketplace.di
 import android.content.Context
 import com.example.gnbmarketplace.data.cache.SharedPreferencesManager
 import com.example.gnbmarketplace.data.server.ApiService
+import com.example.gnbmarketplace.data.server.HeaderInterceptor
 import com.example.gnbmarketplace.domain.repository.conversions.ConversionsRepository
 import com.example.gnbmarketplace.domain.repository.products.ProductsRepository
 import com.example.gnbmarketplace.utils.Constants
@@ -23,9 +24,10 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(interceptor: HeaderInterceptor): OkHttpClient {
         return OkHttpClient.Builder().apply {
             connectTimeout(30, TimeUnit.SECONDS)
+            addInterceptor(interceptor)
             writeTimeout(30, TimeUnit.SECONDS)
             readTimeout(30, TimeUnit.SECONDS)
         }.build()
@@ -39,6 +41,11 @@ object NetworkModule {
                 .baseUrl(Constants.END_POINT_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build().create(ApiService::class.java)
+    }
+
+    @Provides
+    fun provideRequestInterceptor() : HeaderInterceptor {
+        return HeaderInterceptor()
     }
 
 }
@@ -66,7 +73,7 @@ object ProductModule {
 
 @Module(includes = [NetworkModule::class])
 @InstallIn(SingletonComponent::class)
-object BankModule {
+object ConversionModule {
 
     @Provides
     @Singleton
