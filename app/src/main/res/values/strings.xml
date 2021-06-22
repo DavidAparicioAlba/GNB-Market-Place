@@ -2,4 +2,6 @@
     <string name="app_name">GNB Market Place</string>
 
     <string name="sample_text">hello!</string>
+    <string name="title_catalog">check our products!</string>
+
 </resources>
