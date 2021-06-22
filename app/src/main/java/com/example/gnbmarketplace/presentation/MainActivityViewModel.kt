@@ -7,6 +7,7 @@ import com.example.gnbmarketplace.core.BaseViewModel
 import com.example.gnbmarketplace.core.ScreenState
 import com.example.gnbmarketplace.data.cache.SharedPreferencesManager
 import com.example.gnbmarketplace.domain.uc.BaseResult
+import com.example.gnbmarketplace.domain.uc.ObtainConversions
 import com.example.gnbmarketplace.domain.uc.ObtainProducts
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -18,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
         private val obtainProducts: ObtainProducts,
+        private val obtainConversions: ObtainConversions,
         private val sharedPreferencesManager: SharedPreferencesManager): BaseViewModel() {
 
     private val _state: MutableLiveData<ScreenState<MainActivityScreenState>> = MutableLiveData()
@@ -38,6 +40,26 @@ class MainActivityViewModel @Inject constructor(
 
     private fun showToast(message: String){
         _state.value = ScreenState.Render(MainActivityScreenState.ShowToast(message))
+    }
+
+    fun obtainConversions() {
+        viewModelScope.launch {
+            obtainConversions.execute()
+                .onStart {
+                    setLoading()
+                }
+                .catch { exception ->
+                    hideLoading()
+                    showToast(exception.message.toString())
+                }
+                .collect { baseResult ->
+                    hideLoading()
+                    when(baseResult){
+                        is BaseResult.Error -> _state.value = ScreenState.Render(MainActivityScreenState.ErrorShowConversions(baseResult.rawResponse))
+                        is BaseResult.Success -> _state.value = ScreenState.Render(MainActivityScreenState.ShowConversions(baseResult.data))
+                    }
+                }
+        }
     }
 
     fun obtainProducts() {

@@ -1,7 +1,7 @@
 package com.example.gnbmarketplace.domain.repository.conversions
 
 import com.example.gnbmarketplace.data.server.ApiService
-import com.example.gnbmarketplace.data.server.WrappedListResponse
+import com.example.gnbmarketplace.data.server.WrappedListConvResponse
 import com.example.gnbmarketplace.domain.models.conversion.Conversion
 import com.example.gnbmarketplace.domain.models.conversion.ConversionEntity
 import com.example.gnbmarketplace.domain.uc.BaseResult
@@ -13,14 +13,14 @@ import javax.inject.Inject
 
 class ConversionsRepository @Inject constructor(val service: ApiService) : ConversionsRepositoryInterface {
 
-    override suspend fun getConversions(): Flow<BaseResult<List<ConversionEntity>, WrappedListResponse<Conversion>>> {
+    override suspend fun getConversions(): Flow<BaseResult<MutableList<ConversionEntity>, WrappedListConvResponse<Conversion>>> {
         return flow {
             val response = service.getConversions()
             if (response.isSuccessful){
                 val body = response.body()!!
                 val conversions = mutableListOf<ConversionEntity>()
                 var conversion: ConversionEntity
-                body.data?.forEach { conversionResponse ->
+                body.forEach { conversionResponse ->
                     conversion = ConversionEntity(
                             conversionResponse.from.toString(),
                             conversionResponse.to.toString(),
@@ -29,8 +29,8 @@ class ConversionsRepository @Inject constructor(val service: ApiService) : Conve
                 }
                 emit(BaseResult.Success(conversions))
             }else{
-                val type = object : TypeToken<WrappedListResponse<Conversion>>(){}.type
-                val err = Gson().fromJson<WrappedListResponse<Conversion>>(response.errorBody()!!.charStream(), type)!!
+                val type = object : TypeToken<WrappedListConvResponse<Conversion>>(){}.type
+                val err = Gson().fromJson<WrappedListConvResponse<Conversion>>(response.errorBody()!!.charStream(), type)!!
                 err.code = response.code()
                 emit(BaseResult.Error(err))
             }
