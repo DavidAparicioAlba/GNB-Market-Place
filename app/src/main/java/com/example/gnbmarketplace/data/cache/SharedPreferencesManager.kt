@@ -14,5 +14,6 @@ class SharedPreferencesManager(val context: Context) {
 
     }
 
+    //TODO: save conversions
 
 }

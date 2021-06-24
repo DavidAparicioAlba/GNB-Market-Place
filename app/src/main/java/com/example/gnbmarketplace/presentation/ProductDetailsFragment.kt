@@ -2,6 +2,7 @@ package com.example.gnbmarketplace.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.widget.Toast
 import com.example.gnbmarketplace.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.product_details_dialog.*
@@ -47,7 +48,7 @@ class ProductDetailsFragment : androidx.fragment.app.DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            productName = it.getString(ARG_AMOUNT).toString()
+            productName = it.getString(ARG_PROD_NAME).toString()
             productTotalCost = it.getFloat(ARG_COST)
             productImage = it.getString(ARG_IMAGE).toString()
             productAmount = it.getInt(ARG_AMOUNT)
@@ -55,18 +56,18 @@ class ProductDetailsFragment : androidx.fragment.app.DialogFragment() {
 
         tv_product_name.text = productName
 
-        tv_product_amount.text = getString(R.string.sample_text)+productAmount
+        tv_product_amount.text = getString(R.string.tv_product_amount_text)+": "+productAmount
 
-        tv_product_cost.text = getString(R.string.sample_text)+productTotalCost
+        tv_product_cost.text = getString(R.string.tv_product_total_price_text)+": "+"%.2f".format(productTotalCost)+"€"
 
         Picasso.get().load(productImage).into(iv_product_dialog)
 
-        btn_buy_product.text = getString(R.string.sample_text)
+        btn_buy_product.text = getString(R.string.btn_product_buy_text)
 
         btn_buy_product.setOnClickListener {
+            Toast.makeText(context, getString(R.string.succesfull_buy_text), Toast.LENGTH_LONG).show()
             dismiss()
         }
-
         ib_close_product_dilog.setOnClickListener{
             dismiss()
         }

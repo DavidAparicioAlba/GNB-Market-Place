@@ -4,4 +4,11 @@
 
     <string name="sample_text">hola!</string>
     <string name="title_catalog">mira nuestros productos!</string>
+    <string name="tv_product_header_title">Detalles del producto</string>
+    <string name="tv_product_amount_text">Cantidad</string>
+    <string name="tv_product_total_price_text">Precio total</string>
+    <string name="btn_product_buy_text">comprar</string>
+    <string name="succesfull_buy_text">has comprado el producto con éxito!</string>
+
+
 </resources>

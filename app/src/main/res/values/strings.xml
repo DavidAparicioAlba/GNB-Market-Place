@@ -3,5 +3,10 @@
 
     <string name="sample_text">hello!</string>
     <string name="title_catalog">check our products!</string>
+    <string name="tv_product_header_title">Product details</string>
+    <string name="tv_product_amount_text">Amount</string>
+    <string name="tv_product_total_price_text">Total price</string>
+    <string name="btn_product_buy_text">buy</string>
+    <string name="succesfull_buy_text">you have purchased the product succesfully!</string>
 
 </resources>
